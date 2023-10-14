@@ -5,9 +5,3 @@ declare module "*.vue" {
 }
 
 
-
-export interface IResult {
-    url: string
-    category: string,
-    theme: string,
-}
