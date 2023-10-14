@@ -12,21 +12,28 @@
     }"
   >
     <template #default>
-      <img class="result-card__img" src="src/assets/img/train.jpg" alt="">
-      <div class="result-card__number">12345678</div>
+      <img class="result-card__img" :src="data.img" alt="">
+      <div class="result-card__number">{{data.number}}</div>
     </template>
     <template #footer>
       <n-space vertical>
-        <span>Дата: {{date}}</span>
-        <span>Имя файла: train.jpg</span></n-space>
+        <span>Тип вагона: {{data.wagon_type}}</span>
+        <span>Дата: {{data.datetime}}</span>
+        <span>Имя файла: {{data.filename}}</span>
+      </n-space>
     </template>
   </n-card>
 </template>
 
 <script setup lang="ts">
 
+import type {IResult} from "@/shims-vue";
 
-const date = new Date().toLocaleString()
+interface IProps {
+  data: IResult
+}
+
+defineProps<IProps>()
 </script>
 
 <style lang="scss">

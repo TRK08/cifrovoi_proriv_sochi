@@ -4,7 +4,7 @@
       <h3 style="margin-bottom: 2rem;">Загрузите изображение вагона:</h3>
       <n-upload
           directory-dnd
-          :on-change="downloadFile"
+          :on-change="loadInfo"
           :show-file-list="false"
           :disabled="fetchStatus === 'loading'"
       >
@@ -22,45 +22,33 @@
       </n-upload>
     </n-card>
 
-    <n-grid :cols="3" x-gap="16" y-gap="16">
-      <n-gi>
-        <ResultCard />
-      </n-gi>
-      <n-gi>
-        <n-card>2</n-card>
-      </n-gi>
-      <n-gi>
-        <n-card>2</n-card>
-      </n-gi>
-    </n-grid>
+    <template v-if="results">
+      <h3 style="margin-bottom: 1rem">Результаты</h3>
+      <n-grid :cols="3" x-gap="16" y-gap="16">
+        <n-gi v-for="res in results" :key="res.number">
+          <ResultCard :data="res" />
+        </n-gi>
+      </n-grid>
+    </template>
 
   </div>
 </template>
 
 <script setup lang="ts">
-import type {InputProps} from "naive-ui";
 import {storeToRefs} from "pinia";
-import {useGlobalStore} from "@/stores";
-import {useNotification} from "naive-ui";
 import { ArchiveOutline } from '@vicons/ionicons5'
 import ResultCard from "@/components/ResultCard.vue";
 import {useResultsStore} from "@/stores/results";
-type InputThemeOverrides = NonNullable<InputProps['themeOverrides']>
 
-const notification = useNotification()
+const {fetchStatus, results} = storeToRefs(useResultsStore())
+const { loadInfo } = useResultsStore()
 
-const {fetchStatus} = storeToRefs(useResultsStore())
 
-const inputThemeOverridesLight: InputThemeOverrides = {
-  color: '#FFFFFF'
-}
-const inputThemeOverridesDark: InputThemeOverrides = {
-  color: '#333333'
+const setDefaultResults = () => {
+  results.value = JSON.parse(localStorage.getItem('results' ) || '[]')
 }
 
-const downloadFile = (file: File) => {
-  console.log(file)
-}
+setDefaultResults()
 
 
 </script>
