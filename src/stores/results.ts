@@ -3,6 +3,7 @@ import axios from "axios";
 import type {IResult} from "@/shims-vue";
 import  {type UploadFileInfo} from "naive-ui";
 import {imgToBase64} from "@/utilits";
+import { v4 as uuidv4 } from 'uuid';
 
 
 interface IState {
@@ -32,6 +33,7 @@ export const useResultsStore = defineStore('results',  {
                 if (res.data) {
                     const resItem = {
                         ...res.data,
+                        id: uuidv4(),
                         filename: file?.name,
                         // @ts-ignore
                         img: await imgToBase64(file?.file as File),
@@ -54,10 +56,10 @@ export const useResultsStore = defineStore('results',  {
                 this.fetchStatus = "init"
             }
         },
-        // removeItem(item: IResult) {
-        //     this.results = this.results.filter(res => res.url !== item.url)
-        //     localStorage.setItem('results', JSON.stringify(this.results))
-        // },
+        removeItem(id: string) {
+            this.results = this.results.filter(res => res.id !== id)
+            localStorage.setItem('results', JSON.stringify(this.results))
+        },
     },
     getters: {}
 })

@@ -5,6 +5,7 @@ declare module "*.vue" {
 }
 
 export interface IResult {
+    id: string,
     number: string,
     datetime: string,
     wagon_type: string,
