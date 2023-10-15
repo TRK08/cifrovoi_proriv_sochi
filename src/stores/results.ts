@@ -25,7 +25,7 @@ export const useResultsStore = defineStore('results',  {
             formData.append('file', file?.file as File);
 
             try {
-                const res = await axios.post(`https://khaki-views-notice.loca.lt/predict`, formData, {
+                const res = await axios.post(`https://d6ae-37-204-156-155.ngrok-free.app/predict`, formData, {
                     headers: {
                         'content-type': 'multipart/form-data'
                     }
